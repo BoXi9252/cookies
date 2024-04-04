@@ -6,6 +6,7 @@
     text-align: center;
     background-image: url('../image/img.png');
     background-size: cover;
+    color:#fff;
 }
 
 
@@ -13,23 +14,19 @@
     display: none;
     width: 25%;
     height: 35%;
-    background-color: aqua;
     border-radius: 5px;
     top: 40%;
     left: 40%;
     position: fixed;
     justify-content: center;
-    /* Flexbox居中对话框 */
     align-items: center;
-    /* Flexbox居中对话框 */
+    background-color: azure;
 }
 
 .modal-content {
     display: flex;
     flex-direction: column;
-    /* 垂直堆叠 */
     justify-content: center;
-    /* 垂直居中 */
     align-items: center;
     text-align: left;
     /* 确保内容填充整个.modal容器 */
@@ -37,14 +34,42 @@
     padding: 20px;
 }
 
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+
+button {
+    width: 33%;
+    height: 36px;
+    border-radius: 5px;
+    background-color: #2196F3;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.modal-content button {
+    margin: 0 10px;
+}
+
+
+/* --------  settings------ */
+
+
 .setting {
     display: flex;
     align-items: center;
-    /* 确保开关和标签垂直对齐 */
     margin-bottom: 10px;
-    /* 添加一些间距 */
 }
-
 
 
 /* 当弹窗应该显示时 */
@@ -58,6 +83,18 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    width: 85%;
+}
+
+
+.switch {
+    margin-left: auto;
+    /* 将开关推到容器的右侧 */
+}
+
+.label {
+    flex-grow: 1;
+    /* 让标签占据多余的空间，确保开关对齐在右侧 */
 }
 
 /* 隐藏默认的复选框 */
@@ -108,12 +145,8 @@
     transform: translateX(26px);
 }
 
-button {
-    width: 25%;
-    height: 5%;
-    border-radius: 5px;
-}
+
 
 #savePreferences {
-    width: 40%;
+    width: 50%;
 }

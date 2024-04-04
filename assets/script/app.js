@@ -33,8 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-
 // 这里添加你的 setCookie 和 getCookie 函数定义
 // 设置cookie
 function setCookie(name, value, seconds) {

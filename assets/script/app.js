@@ -1,24 +1,21 @@
 
-// 为“Accept All”按钮添加点击事件监听器
+// Add a click event listener for the "Accept All" button
 document.getElementById('acceptAllCookies').addEventListener('click', function () {
-    // 这里设置cookie
-    setCookie('userPreferences', 'all', 20); // 例如存活20秒
+    // 设置cookie
+    setCookie('userPreferences', 'all', 20); // 存活20秒
     // 隐藏cookie信息弹窗
     document.getElementById('cookieModal').classList.remove('show');
 });
 
-// 为“Settings”按钮添加点击事件监听器
+// Add a click event listener for the "Settings" button
 document.getElementById('settingsButton').addEventListener('click', function () {
-    // 显示设置信息弹窗
+    // show  "settings informations pop up "
     document.getElementById('settingsModal').classList.add('show');
 });
 
-// 为“Save Preferences”按钮添加点击事件监听器
+// listen “Save Preferences”
 document.getElementById('savePreferences').addEventListener('click', function () {
-    // 这里保存用户的设置选择
-    // ...
-
-    // 隐藏设置信息弹窗
+    // 隐藏 "settings informations pop up "
     document.getElementById('settingsModal').classList.remove('show');
 });
 
@@ -28,13 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // 如果cookie不存在，显示cookie信息弹窗
         setTimeout(function () {
             document.getElementById('cookieModal').classList.add('show');
-        }, 1000); // 页面加载后1秒显示
+        }, 2000); // 页面加载后2秒显示
     }
 });
 
 
-// 这里添加你的 setCookie 和 getCookie 函数定义
-// 设置cookie
+//  setCookie 、 getCookie functions
+// Set cookie
 function setCookie(name, value, seconds) {
     const expiry = new Date(new Date().getTime() + seconds * 1000);
     const cookieValue = name + "=" + value + "; expires=" + expiry.toGMTString() + "; path=/";
@@ -53,13 +50,12 @@ function getCookie(name) {
     return null;
 }
 
-
+// click ”Save Preferences“
 document.getElementById('savePreferences').addEventListener('click', function () {
-    // 直接隐藏设置对话框
+    // 隐藏settings pop up
     document.getElementById('settingsModal').style.display = 'none';
 
-    // 如果需要同时隐藏第一个对话框，也就是cookie信息对话框
+    // 隐藏cookie pop up
     document.getElementById('cookieModal').style.display = 'none';
 
-    // 这里添加保存设置的代码，例如保存到cookie
 });

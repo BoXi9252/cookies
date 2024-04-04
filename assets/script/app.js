@@ -43,7 +43,7 @@ function setCookie(name, value, seconds) {
     document.cookie = cookieValue;
 }
 
-// 获取cookie
+// Get cookie
 function getCookie(name) {
     const nameEQ = name + "=";
     const ca = document.cookie.split(';');
@@ -54,3 +54,14 @@ function getCookie(name) {
     }
     return null;
 }
+
+
+document.getElementById('savePreferences').addEventListener('click', function () {
+    // 直接隐藏设置对话框
+    document.getElementById('settingsModal').style.display = 'none';
+
+    // 如果需要同时隐藏第一个对话框，也就是cookie信息对话框
+    document.getElementById('cookieModal').style.display = 'none';
+
+    // 这里添加保存设置的代码，例如保存到cookie
+});

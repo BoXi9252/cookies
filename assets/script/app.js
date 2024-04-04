@@ -32,19 +32,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //  setCookie 、 getCookie functions
 // Set cookie
-function setCookie(name, value, seconds) {
-    const expiry = new Date(new Date().getTime() + seconds * 1000);
-    const cookieValue = name + "=" + value + "; expires=" + expiry.toGMTString() + "; path=/";
-    document.cookie = cookieValue;
-}
-// Set cookie
 // function setCookie(name, value, seconds) {
 //     const expiry = new Date(new Date().getTime() + seconds * 1000);
-//     // 如果你的网站完全运行在HTTPS上，并且你需要在第三方上下文中发送cookie，则设置SameSite=None; Secure
-//     // 否则，可以选择使用SameSite=Lax来增加安全性
-//     const cookieValue = `${name}=${value}; expires=${expiry.toGMTString()}; path=/; SameSite=Lax`;
+//     const cookieValue = name + "=" + value + "; expires=" + expiry.toGMTString() + "; path=/";
 //     document.cookie = cookieValue;
 // }
+
+// Set cookie
+function setCookie(name, value, seconds) {
+    const expiry = new Date(new Date().getTime() + seconds * 1000);
+    // 注意：SameSite=None 时需要设置 Secure 属性
+    const cookieValue = `${name}=${value}; expires=${expiry.toGMTString()}; path=/; SameSite=Lax; Secure`;
+    document.cookie = cookieValue;
+}
+
+
 
 
 // Get cookie

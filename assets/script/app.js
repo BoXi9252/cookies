@@ -1,117 +1,104 @@
-
-// Add a click event listener for the "Accept All" button
+// Event listener for the "Accept All" button
 document.getElementById('acceptAllCookies').addEventListener('click', function () {
-    // 设置cookie
-    setCookie('userPreferences', 'all', 20); // 存活20秒
-    // 隐藏cookie信息弹窗
-    document.getElementById('cookieModal').classList.remove('show');
+    acceptAndSavePreferences(); // Function to save preferences when "Accept All" is clicked
 });
 
-// Add a click event listener for the "Settings" button
+// Event listener for the "Settings" button
 document.getElementById('settingsButton').addEventListener('click', function () {
-    // show  "settings informations pop up "
+    // Show "settings information pop up"
     document.getElementById('settingsModal').classList.add('show');
 });
 
-// listen “Save Preferences”
+// Event listener for the "Save Preferences" button
 document.getElementById('savePreferences').addEventListener('click', function () {
-    // 隐藏 "settings informations pop up "
-    document.getElementById('settingsModal').classList.remove('show');
+    acceptAndSavePreferences(); // Function to save preferences when "Save Preferences" is clicked
 });
 
-// 页面加载时检查cookie
-document.addEventListener('DOMContentLoaded', function () {
-    if (!getCookie('userPreferences')) {
-        // 如果cookie不存在，显示cookie信息弹窗
-        setTimeout(function () {
-            document.getElementById('cookieModal').classList.add('show');
-        }, 1000); // 页面加载后2秒显示
-    }
-});
+// Function to save user preferences and hide modals
+function acceptAndSavePreferences() {
+    // Set cookie for user preferences
+    setCookie('userPreferences', 'all', 20); // Assume user agrees to all preferences
 
+    // Save system information cookies
+    saveSystemInfoCookies();
 
-//  setCookie 、 getCookie functions
-// Set cookie
-// function setCookie(name, value, seconds) {
-//     const expiry = new Date(new Date().getTime() + seconds * 1000);
-//     const cookieValue = name + "=" + value + "; expires=" + expiry.toGMTString() + "; path=/";
-//     document.cookie = cookieValue;
-// }
+    // Hide modals
+    document.getElementById('settingsModal').style.display = 'none';
+    document.getElementById('cookieModal').style.display = 'none';
+}
 
-// Set cookie
-function setCookie(name, value, seconds) {
-    const expiry = new Date(new Date().getTime() + seconds * 1000);
-    // 注意：SameSite=None 时需要设置 Secure 属性
-    const cookieValue = `${name}=${value}; expires=${expiry.toGMTString()}; path=/; SameSite=Lax; Secure`;
-    document.cookie = cookieValue;
+// Function to save system information cookies
+function saveSystemInfoCookies() {
+    // Save browser info to cookie
+    const browserInfo = getBrowserInfo();
+    setCookie('browserInfo', browserInfo, 20); // 20 seconds lifespan
+
+    // Save operating system info to cookie
+    var osInfo = getOSInfo();
+    setCookie('osInfo', osInfo, 20); // 20 seconds lifespan
+
+    // Save screen info to cookie
+    var screenInfo = getScreenInfo();
+    setCookie('screenWidth', screenInfo.width, 20); // 20 seconds lifespan
+    setCookie('screenHeight', screenInfo.height, 20); // 20 seconds lifespan
 }
 
 
 
 
-// Get cookie
+// Page load check for userPreferences cookie
+document.addEventListener('DOMContentLoaded', function () {
+    if (!getCookie('userPreferences')) {
+        // Show cookie information modal if no preferences saved
+        setTimeout(function () {
+            document.getElementById('cookieModal').classList.add('show');
+        }, 1000); // Show after 1 second for demonstration purposes
+    }
+});
+
+// Set cookie function with Secure flag if served over HTTPS
+function setCookie(name, value, seconds) {
+    const expiry = new Date(new Date().getTime() + seconds * 1000);
+    const protocol = window.location.protocol === 'https:' ? '; Secure' : '';
+    const cookieValue = `${name}=${value}; expires=${expiry.toGMTString()}; path=/; SameSite=Lax${protocol}`;
+    document.cookie = cookieValue;
+    console.log(`Setting cookie: ${name}=${value}`);
+}
+
+// Get cookie function
 function getCookie(name) {
     const nameEQ = name + "=";
     const ca = document.cookie.split(';');
     for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1);
+        let c = ca[i].trim();
         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
 }
 
-// 获取操作系统信息的函数
+// Browser info function
+function getBrowserInfo() {
+    const ua = navigator.userAgent;
+    // Simplified detection logic
+    if (ua.includes("Firefox")) return "Firefox";
+    else if (ua.includes("Opera") || ua.includes("OPR")) return "Opera";
+    else if (ua.includes("Chrome")) return "Chrome";
+    else if (ua.includes("Safari")) return "Safari";
+    else if (ua.includes("MSIE") || ua.includes("Trident/")) return "Internet Explorer";
+    else return "Unknown";
+}
+
+// OS info function
 function getOSInfo() {
-    let osName = "Unknown OS";
-    if (navigator.appVersion.indexOf("Win") != -1) osName = "Windows";
-    if (navigator.appVersion.indexOf("Mac") != -1) osName = "MacOS";
-    if (navigator.appVersion.indexOf("X11") != -1) osName = "UNIX";
-    if (navigator.appVersion.indexOf("Linux") != -1) osName = "Linux";
-    // console.log("Operating System:", osName); // 使用console.log输出操作系统信息
-    return osName;
+    // Simplified OS detection logic
+    if (navigator.appVersion.includes("Win")) return "Windows";
+    else if (navigator.appVersion.includes("Mac")) return "MacOS";
+    else if (navigator.appVersion.includes("X11")) return "UNIX";
+    else if (navigator.appVersion.includes("Linux")) return "Linux";
+    else return "Unknown OS";
 }
 
-// 获取屏幕宽度和高度的函数
+// Screen info function
 function getScreenInfo() {
-    return {
-        width: window.screen.width,
-        height: window.screen.height
-    };
+    return { width: window.screen.width, height: window.screen.height };
 }
-
-
-// click ”Save Preferences“
-document.getElementById('savePreferences').addEventListener('click', function () {
-    // 假设用户同意保存所有信息（这里可以根据实际情况调整逻辑）
-
-    // 获取操作系统信息并保存到cookie
-    var osInfo = getOSInfo();
-    setCookie('osInfo', osInfo, 20); // 存活20秒
-
-    // 获取屏幕信息并保存到cookie
-    var screenInfo = getScreenInfo();
-    setCookie('screenWidth', screenInfo.width, 20); // 存活20秒
-    setCookie('screenHeight', screenInfo.height, 20); // 存活20秒
-
-    // 隐藏settings pop up
-    document.getElementById('settingsModal').style.display = 'none';
-
-    // 隐藏cookie pop up
-    document.getElementById('cookieModal').style.display = 'none';
-});
-
-
-
-
-
-
-// // click ”Save Preferences“
-// document.getElementById('savePreferences').addEventListener('click', function () {
-//     // 隐藏settings pop up
-//     document.getElementById('settingsModal').style.display = 'none';
-
-//     // 隐藏cookie pop up
-//     document.getElementById('cookieModal').style.display = 'none';
-
-// });
